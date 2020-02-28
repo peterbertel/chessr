@@ -3,12 +3,16 @@
 <head>
 	<meta charset="utf-8">
 	<title>Chessr</title>
+	<link rel="stylesheet" href="lib/css/chessboard-1.0.0.min.css">
+	<script src="lib/js/jquery-3.4.1.min.js"></script>
+	<script src="lib/js/chessboard-1.0.0.min.js"></script>	
 	<script src="https://unpkg.com/vue"></script>
 </head>
 <body>
 	<div id="app">
 		{{ message }}
 	</div>
+	<div id="board1" style="width: 400px"></div>
 	<script>
 		var app = new Vue({
 			el: '#app',
@@ -16,6 +20,7 @@
 				message: 'Hello there! This app is currently in-progress. :)'
 			}
 		})
+		var board1 = Chessboard('board1')
 	</script>
 </body>
 </html>
