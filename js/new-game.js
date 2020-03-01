@@ -1,14 +1,32 @@
+// Vue Elements
 var app = new Vue({
     el: '#app',
     data: {
         message: 'Hello there! This app is currently in-progress. :)'
     }
 })
+var statusMessage = new Vue({
+    el: '#status',
+    data: {
+        message: null
+    }
+})
+var fen = new Vue({
+    el: '#fen',
+    data: {
+        output: null
+    }
+})
+var pgn = new Vue({
+    el: '#pgn',
+    data: {
+        output: null
+    }
+})
+
+// Initialize chess board and start a new game
 var board = null
 var game = new Chess()
-var $status = $('#status')
-var $fen = $('#fen')
-var $pgn = $('#pgn')
 
 function onDragStart (source, piece, position, orientation) {
     // do not pick up pieces if the game is over
@@ -64,9 +82,9 @@ function updateStatus () {
         }
     }
 
-    $status.html(status)
-    $fen.html(game.fen())
-    $pgn.html(game.pgn())
+    statusMessage.message = status
+    fen.output = game.fen()
+    pgn.output = game.pgn()
 }
 
 var gameConfig = {
