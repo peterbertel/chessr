@@ -24,7 +24,7 @@
 		{{ output }}
 	</p>
 	<div id="undo-move-button">
-		<button v-on:click="undoMove">Undo Move</button>
+		<button v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
 	</div>
 	<script src="js/new-game.js"></script>
 </body>

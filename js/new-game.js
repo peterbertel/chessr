@@ -25,6 +25,13 @@ var pgn = new Vue({
 })
 var undoMoveButton = new Vue({
     el: '#undo-move-button',
+    created() {
+        window.addEventListener('keydown', (e) => {
+            if (e.key == 'ArrowLeft') {
+                this.undoMove()
+            }
+        });
+    },
     methods: {
         undoMove: function (event) {
             game.undo()
