@@ -23,6 +23,16 @@ var pgn = new Vue({
         output: null
     }
 })
+var undoMoveButton = new Vue({
+    el: '#undo-move-button',
+    methods: {
+        undoMove: function (event) {
+            game.undo()
+            board.position(game.fen())
+            updateStatus()
+        }
+    }
+})
 
 // Initialize chess board and start a new game
 var board = null
