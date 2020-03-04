@@ -40,10 +40,33 @@ var undoMoveButton = new Vue({
         }
     }
 })
+var savedGames = new Vue({
+    el: '#savedGames',
+    data: {
+        games: [
+            { pgn: '', gameTitle: '' }
+        ]
+    },
+    methods: {
+        loadGame: function (pgn) {
+            game.load_pgn(pgn)
+            board.position(game.fen())
+            updateStatus()
+        }
+    }
+})
 
 // Initialize chess board and start a new game
 var board = null
 var game = new Chess()
+var game1PGN = "1. d4 f5 2. f4 e6 3. Bd2 d5 4. g4 Qh4#"
+var game2PGN = "1. d4 d5 2. Nf3 e5 3. Nxe5 Qh4 4. Qd3 Na6 5. Qf3 c5 6. dxc5 Qd8 7. Qxf7#"
+var games = [
+    { pgn: game1PGN, gameTitle: "Game 1" },
+    { pgn: game2PGN, gameTitle: "Game 2" },
+]
+
+savedGames.games = games
 
 function onDragStart (source, piece, position, orientation) {
     // do not pick up pieces if the game is over

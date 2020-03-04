@@ -18,7 +18,7 @@
 		{{ message }}
 	</p>
 	<p id="fen">
-		{{ output }}
+		<!-- {{ output }} -->
 	</p>
 	<p id="pgn">
 		{{ output }}
@@ -26,6 +26,12 @@
 	<div id="undo-move-button">
 		<button v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
 	</div>
+	<p>Load one of the games below!</p>
+	<ul id="savedGames">
+		<li v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)">
+			{{ game.gameTitle }}
+		</li>
+	</ul>
 	<script src="js/new-game.js"></script>
 </body>
 </html>
