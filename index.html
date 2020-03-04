@@ -26,6 +26,10 @@
 	<div id="undo-move-button">
 		<button v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
 	</div>
+	<div id="save-new-game">
+		<input type="text" v-model="gameTitle" placeholder="Game Title">
+		<button v-on:click="saveGame">Save Game</button>
+	</div>
 	<p>Load one of the games below!</p>
 	<ul id="savedGames">
 		<li v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)">

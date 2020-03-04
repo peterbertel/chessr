@@ -40,6 +40,19 @@ var undoMoveButton = new Vue({
         }
     }
 })
+var saveNewGameInput = new Vue({
+    el: '#save-new-game',
+    data: {
+        gameTitle: ""
+    },
+    methods: {
+        saveGame: function () {
+            currentPGN = game.pgn()
+            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
+            savedGames.games.push(currentGame)
+        }
+    }
+})
 var savedGames = new Vue({
     el: '#savedGames',
     data: {
