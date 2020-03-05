@@ -63,6 +63,22 @@ var saveNewGameInput = new Vue({
         }
     }
 })
+var flipBoardButton = new Vue({
+    el: '#flip-board-button',
+    methods: {
+        flipBoard: function () {
+            if (gameConfig.orientation == 'white') {
+                gameConfig.orientation = 'black'
+            }
+            else {
+                console.log("switching the board back to white")
+                gameConfig.orientation = 'white'
+            }
+            board = Chessboard('board', gameConfig)
+            board.position(game.fen())
+        }
+    }
+})
 var savedGames = new Vue({
     el: '#savedGames',
     data: {
