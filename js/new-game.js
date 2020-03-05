@@ -40,6 +40,16 @@ var undoMoveButton = new Vue({
         }
     }
 })
+var newGameButton = new Vue({
+    el: '#new-game-button',
+    methods: {
+        newGame: function () {
+            game = new Chess()
+            board.position(game.fen())
+            updateStatus()
+        }
+    }
+})
 var saveNewGameInput = new Vue({
     el: '#save-new-game',
     data: {

@@ -26,6 +26,9 @@
 	<div id="undo-move-button">
 		<button v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
 	</div>
+	<div id="new-game-button">
+		<button v-on:click="newGame">New Game</button>
+	</div>
 	<div id="save-new-game">
 		<input type="text" v-model="gameTitle" placeholder="Game Title">
 		<button v-on:click="saveGame">Save Game</button>
