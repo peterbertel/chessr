@@ -60,6 +60,15 @@ var saveNewGameInput = new Vue({
             currentPGN = game.pgn()
             currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
             savedGames.games.push(currentGame)
+            localGames = localStorage.getItem("savedGames")
+            if (!localGames) {
+                games = [ currentGame ]
+            }
+            else {
+                games = JSON.parse(localGames)
+                games.push(currentGame)
+            }
+            saveGamesLocally(games)
         }
     }
 })
@@ -98,14 +107,7 @@ var savedGames = new Vue({
 // Initialize chess board and start a new game
 var board = null
 var game = new Chess()
-var game1PGN = "1. d4 f5 2. f4 e6 3. Bd2 d5 4. g4 Qh4#"
-var game2PGN = "1. d4 d5 2. Nf3 e5 3. Nxe5 Qh4 4. Qd3 Na6 5. Qf3 c5 6. dxc5 Qd8 7. Qxf7#"
-var games = [
-    { pgn: game1PGN, gameTitle: "Game 1" },
-    { pgn: game2PGN, gameTitle: "Game 2" },
-]
-
-savedGames.games = games
+var games = []
 
 function onDragStart (source, piece, position, orientation) {
     // do not pick up pieces if the game is over
@@ -166,6 +168,23 @@ function updateStatus () {
     pgn.output = game.pgn()
 }
 
+function saveGamesLocally (g) {
+    stringified = JSON.stringify(g)
+    localStorage.savedGames = stringified
+}
+
+function loadSavedGames () {
+    loadedGames = localStorage.getItem("savedGames")
+    if (!loadedGames) {
+        console.log("There are no saved games")
+    }
+    else {
+        parsedGames = JSON.parse(loadedGames)
+        console.log("The saved games are: " + parsedGames)
+        savedGames.games = parsedGames
+    }
+}
+
 var gameConfig = {
     draggable: true,
     position: 'start',
@@ -177,3 +196,4 @@ var gameConfig = {
 board = Chessboard('board', gameConfig)
 
 updateStatus()
+loadSavedGames()
