@@ -36,12 +36,14 @@
 		<input type="text" v-model="gameTitle" placeholder="Game Title">
 		<button v-on:click="saveGame">Save Game</button>
 	</div>
-	<p>Load one of the games below!</p>
-	<ul id="savedGames">
-		<li v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)">
-			{{ game.gameTitle }}
-		</li>
-	</ul>
+	<div id="saved-games" v-if="games">
+		<p>Load one of the games below!</p>
+		<ul>
+			<li v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)">
+				{{ game.gameTitle }}
+			</li>
+		</ul>
+	</div>
 	<script src="js/new-game.js"></script>
 </body>
 </html>

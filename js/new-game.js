@@ -59,14 +59,14 @@ var saveNewGameInput = new Vue({
         saveGame: function () {
             currentPGN = game.pgn()
             currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
-            savedGames.games.push(currentGame)
             localGames = localStorage.getItem("savedGames")
             if (!localGames) {
                 games = [ currentGame ]
+                savedGames.games = games
             }
             else {
-                games = JSON.parse(localGames)
-                games.push(currentGame)
+                savedGames.games.push(currentGame)
+                games = savedGames.games
             }
             saveGamesLocally(games)
         }
@@ -80,7 +80,6 @@ var flipBoardButton = new Vue({
                 gameConfig.orientation = 'black'
             }
             else {
-                console.log("switching the board back to white")
                 gameConfig.orientation = 'white'
             }
             board = Chessboard('board', gameConfig)
@@ -89,11 +88,9 @@ var flipBoardButton = new Vue({
     }
 })
 var savedGames = new Vue({
-    el: '#savedGames',
+    el: '#saved-games',
     data: {
-        games: [
-            { pgn: '', gameTitle: '' }
-        ]
+        games: null
     },
     methods: {
         loadGame: function (pgn) {
@@ -107,7 +104,6 @@ var savedGames = new Vue({
 // Initialize chess board and start a new game
 var board = null
 var game = new Chess()
-var games = []
 
 function onDragStart (source, piece, position, orientation) {
     // do not pick up pieces if the game is over
@@ -168,8 +164,8 @@ function updateStatus () {
     pgn.output = game.pgn()
 }
 
-function saveGamesLocally (g) {
-    stringified = JSON.stringify(g)
+function saveGamesLocally (games) {
+    stringified = JSON.stringify(games)
     localStorage.savedGames = stringified
 }
 
@@ -180,7 +176,6 @@ function loadSavedGames () {
     }
     else {
         parsedGames = JSON.parse(loadedGames)
-        console.log("The saved games are: " + parsedGames)
         savedGames.games = parsedGames
     }
 }
