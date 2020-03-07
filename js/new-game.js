@@ -53,10 +53,19 @@ var newGameButton = new Vue({
 var saveNewGameInput = new Vue({
     el: '#save-new-game',
     data: {
-        gameTitle: ""
+        gameTitle: "",
+        whitePlayerName: "",
+        blackPlayerName: ""
     },
     methods: {
         saveGame: function () {
+            if (this.whitePlayerName) {
+                game.header("White", this.whitePlayerName)
+            }
+            if (this.blackPlayerName) {
+                game.header("Black", this.blackPlayerName)
+            }
+            updateStatus()
             currentPGN = game.pgn()
             currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
             localGames = localStorage.getItem("savedGames")
