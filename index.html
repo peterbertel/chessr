@@ -4,10 +4,31 @@
 	<meta charset="utf-8">
 	<title>Chessr</title>
 	<link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
+	<link rel="stylesheet" href="css/chessr.css">
 	<script src="js/jquery-3.4.1.min.js"></script>
 	<script src="js/chessboard-1.0.0.min.js"></script>
 	<script src="js/chess.js"></script>
 	<script src="https://unpkg.com/vue"></script>
+	<script type="text/x-template" id="promotion-modal-template">
+		<transition name="promotion-modal">
+			<div class="modal-mask">
+				<div class="modal-wrapper">
+					<div class="modal-container">
+						<div class="modal-header">
+							<slot name="header">
+								Promote to which piece?
+							</slot>
+						</div>
+						<div class="modal-body">
+							<slot name="body" @click="showModal = false">
+								Queen | Rook | Bishop | Knight
+							</slot>
+						</div>
+					</div>
+				</div>
+			</div>
+		</transition>
+	</script>
 </head>
 <body>
 	<div id="app">
@@ -45,6 +66,10 @@
 				{{ game.gameTitle }}
 			</li>
 		</ul>
+	</div>
+	<div id="promotion-modal">
+		<button id="show-modal" @click="showModal = true">Show Promotion Modal</button>
+		<promotion-modal v-if="showModal" @close="showModal = false"></promotion-modal>
 	</div>
 	<script src="js/new-game.js"></script>
 </body>

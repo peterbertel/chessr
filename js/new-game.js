@@ -109,6 +109,15 @@ var savedGames = new Vue({
         }
     }
 })
+Vue.component("promotion-modal", {
+    template: "#promotion-modal-template"
+});
+var promotionModal = new Vue({
+    el: '#promotion-modal',
+    data: {
+        showModal: false
+    }
+})
 
 // Initialize chess board and start a new game
 var board = null
@@ -127,6 +136,11 @@ function onDragStart (source, piece, position, orientation) {
 
 function onDrop (source, target) {
     // see if the move is legal
+    if (target.includes(1) || target.includes(8)) {
+        // Create a new modal that asks for the promotion piece
+
+    }
+
     var move = game.move({
         from: source,
         to: target,
