@@ -11,12 +11,6 @@ var statusMessage = new Vue({
         message: null
     }
 })
-var fen = new Vue({
-    el: '#fen',
-    data: {
-        output: null
-    }
-})
 var pgn = new Vue({
     el: '#pgn',
     data: {
@@ -109,9 +103,6 @@ var savedGames = new Vue({
         }
     }
 })
-// Vue.component("promotion-modal", {
-//     template: "#promotion-modal-template"
-// });
 var promotionModal = new Vue({
     el: '#promotion-modal',
     data: {
@@ -153,9 +144,7 @@ function onDragStart (source, piece, position, orientation) {
 function onDrop (source, target) {
     // see if the move is legal
     if ( (source.includes(2) && (target.includes(1))  || (source.includes(7) && target.includes(8))) ) {
-        // Create a new modal that asks for the promotion piece
         if (isPawnMove(game, source, target)) {
-            console.log("Promote piece")
             promotionModal.showModal = true
         }
     }
