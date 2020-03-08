@@ -55,7 +55,8 @@ var saveNewGameInput = new Vue({
     data: {
         gameTitle: "",
         whitePlayerName: "",
-        blackPlayerName: ""
+        blackPlayerName: "",
+        eventName: ""
     },
     methods: {
         saveGame: function () {
@@ -64,6 +65,9 @@ var saveNewGameInput = new Vue({
             }
             if (this.blackPlayerName) {
                 game.header("Black", this.blackPlayerName)
+            }
+            if (this.eventName) {
+                game.header("Event", this.eventName)
             }
             updateStatus()
             currentPGN = game.pgn()

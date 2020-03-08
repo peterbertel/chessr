@@ -36,6 +36,7 @@
 		<input type="text" v-model="gameTitle" placeholder="Game Title">
 		<input type="text" v-model="whitePlayerName" placeholder="White Player Name">
 		<input type="text" v-model="blackPlayerName" placeholder="Black Player Name">
+		<input type="text" v-model="eventName" placeholder="Event">
 		<button v-on:click="saveGame">Save Game</button>
 	</div>
 	<div id="saved-games" v-if="games">
