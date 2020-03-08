@@ -191,7 +191,6 @@ function updateStatus () {
     }
 
     statusMessage.message = status
-    fen.output = game.fen()
     pgn.output = game.pgn()
 }
 
