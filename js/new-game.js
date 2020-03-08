@@ -156,7 +156,7 @@ function onDrop (source, target) {
         // Create a new modal that asks for the promotion piece
         if (isPawnMove(game, source, target)) {
             console.log("Promote piece")
-            // promotionModal.showModal == true
+            promotionModal.showModal = true
         }
     }
 
