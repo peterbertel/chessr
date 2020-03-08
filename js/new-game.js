@@ -123,6 +123,22 @@ var promotionModal = new Vue({
 var board = null
 var game = new Chess()
 
+function isPawnMove (game, source, target) {
+    tmpGame = new Chess()
+    tmpGame.load_pgn(game.pgn())
+    move = tmpGame.move({
+        from: source,
+        to: target,
+        promotion: 'q'
+    })
+    if (move === null) {
+        return false
+    }
+    else {
+        return (move.piece == 'p')
+    }
+}
+
 function onDragStart (source, piece, position, orientation) {
     // do not pick up pieces if the game is over
     if (game.game_over()) return false
@@ -136,9 +152,12 @@ function onDragStart (source, piece, position, orientation) {
 
 function onDrop (source, target) {
     // see if the move is legal
-    if (target.includes(1) || target.includes(8)) {
+    if ( (source.includes(2) && (target.includes(1))  || (source.includes(7) && target.includes(8))) ) {
         // Create a new modal that asks for the promotion piece
-
+        if (isPawnMove(game, source, target)) {
+            console.log("Promote piece")
+            // promotionModal.showModal == true
+        }
     }
 
     var move = game.move({
