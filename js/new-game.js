@@ -109,9 +109,9 @@ var savedGames = new Vue({
         }
     }
 })
-Vue.component("promotion-modal", {
-    template: "#promotion-modal-template"
-});
+// Vue.component("promotion-modal", {
+//     template: "#promotion-modal-template"
+// });
 var promotionModal = new Vue({
     el: '#promotion-modal',
     data: {

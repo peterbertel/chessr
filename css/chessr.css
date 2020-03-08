@@ -37,6 +37,10 @@
     text-align: center;
 }
 
+.modal-footer {
+    text-align: center;
+}
+
 .modal-default-button {
     float: right;
 }
