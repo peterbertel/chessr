@@ -11,12 +11,6 @@ var statusMessage = new Vue({
         message: null
     }
 })
-var fen = new Vue({
-    el: '#fen',
-    data: {
-        output: null
-    }
-})
 var pgn = new Vue({
     el: '#pgn',
     data: {
@@ -113,10 +107,48 @@ var savedGames = new Vue({
         }
     }
 })
+var promotionModal = new Vue({
+    el: '#promotion-modal',
+    data: {
+        showModal: false,
+        chosenPiece: "",
+        sourceSquare: "",
+        targetSquare: ""
+    },
+    methods: {
+        promoteTo: function (piece) {
+            this.chosenPiece = piece
+            var move = game.move({
+                from: this.sourceSquare,
+                to: this.targetSquare,
+                promotion: piece
+            })
+            board.position(game.fen())
+            updateStatus()
+            this.showModal = false
+        }
+    }
+})
 
 // Initialize chess board and start a new game
 var board = null
 var game = new Chess()
+
+function isValidPawnMove (game, source, target) {
+    tmpGame = new Chess()
+    tmpGame.load_pgn(game.pgn())
+    move = tmpGame.move({
+        from: source,
+        to: target,
+        promotion: 'q'
+    })
+    if (move === null) {
+        return false
+    }
+    else {
+        return (move.piece == 'p')
+    }
+}
 
 function onDragStart (source, piece, position, orientation) {
     // do not pick up pieces if the game is over
@@ -130,17 +162,24 @@ function onDragStart (source, piece, position, orientation) {
 }
 
 function onDrop (source, target) {
-    // see if the move is legal
-    var move = game.move({
-        from: source,
-        to: target,
-        promotion: 'q'
-    })
+    // If a piece is moving to a back rank from the second to last rank
+    if ( (source.includes(2) && (target.includes(1))  || (source.includes(7) && target.includes(8))) ) {
+        if (isValidPawnMove(game, source, target)) {
+            promotionModal.sourceSquare = source
+            promotionModal.targetSquare = target
+            promotionModal.showModal = true
+        }
+    }
+    else {
+        var move = game.move({
+            from: source,
+            to: target
+        })
 
-    // illegal move
-    if (move === null) return 'snapback'
-
-    updateStatus()
+        // illegal move
+        if (move === null) return 'snapback'
+        updateStatus()
+    }
 }
 
 // update the board position after the piece snap
@@ -173,7 +212,6 @@ function updateStatus () {
     }
 
     statusMessage.message = status
-    fen.output = game.fen()
     pgn.output = game.pgn()
 }
 
