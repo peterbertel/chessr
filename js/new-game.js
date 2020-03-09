@@ -106,7 +106,23 @@ var savedGames = new Vue({
 var promotionModal = new Vue({
     el: '#promotion-modal',
     data: {
-        showModal: false
+        showModal: false,
+        chosenPiece: "",
+        sourceSquare: "",
+        targetSquare: ""
+    },
+    methods: {
+        promoteTo: function (piece) {
+            this.chosenPiece = piece
+            var move = game.move({
+                from: this.sourceSquare,
+                to: this.targetSquare,
+                promotion: piece
+            })
+            board.position(game.fen())
+            updateStatus()
+            this.showModal = false
+        }
     }
 })
 
@@ -114,7 +130,7 @@ var promotionModal = new Vue({
 var board = null
 var game = new Chess()
 
-function isPawnMove (game, source, target) {
+function isValidPawnMove (game, source, target) {
     tmpGame = new Chess()
     tmpGame.load_pgn(game.pgn())
     move = tmpGame.move({
@@ -142,23 +158,24 @@ function onDragStart (source, piece, position, orientation) {
 }
 
 function onDrop (source, target) {
-    // see if the move is legal
+    // If a piece is moving to a back rank from the second to last rank
     if ( (source.includes(2) && (target.includes(1))  || (source.includes(7) && target.includes(8))) ) {
-        if (isPawnMove(game, source, target)) {
+        if (isValidPawnMove(game, source, target)) {
+            promotionModal.sourceSquare = source
+            promotionModal.targetSquare = target
             promotionModal.showModal = true
         }
     }
+    else {
+        var move = game.move({
+            from: source,
+            to: target
+        })
 
-    var move = game.move({
-        from: source,
-        to: target,
-        promotion: 'q'
-    })
-
-    // illegal move
-    if (move === null) return 'snapback'
-
-    updateStatus()
+        // illegal move
+        if (move === null) return 'snapback'
+        updateStatus()
+    }
 }
 
 // update the board position after the piece snap

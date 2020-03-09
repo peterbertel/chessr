@@ -55,14 +55,11 @@
 					</div>
 					<div class="modal-body">
 						<slot name="body">
-							<span>Queen</span>
-							<span>Rook</span>
-							<span>Bishop</span>
-							<span>Knight</span>
+							<button v-on:click="promoteTo('q')">Queen</button>
+							<button v-on:click="promoteTo('r')">Rook</button>
+							<button v-on:click="promoteTo('b')">Bishop</button>
+							<button v-on:click="promoteTo('n')">Knight</button>
 						</slot>
-					</div>
-					<div class="modal-footer">
-						<button @click="showModal = false">OK</button>
 					</div>
 				</div>
 			</div>
