@@ -223,10 +223,7 @@ function saveGamesLocally (games) {
 
 function loadSavedGames () {
     loadedGames = localStorage.getItem("savedGames")
-    if (!loadedGames) {
-        console.log("There are no saved games")
-    }
-    else {
+    if (loadedGames) {
         parsedGames = JSON.parse(loadedGames)
         savedGames.games = parsedGames
     }
@@ -241,10 +238,6 @@ function loadCurrentGamePGN () {
     g = localStorage.currentGamePGN
     if (g) {
         savedGames.loadGame(JSON.parse(g))
-        console.log("Loading a saved game")
-    }
-    else {
-        console.log("Not loading a saved game")
     }
 }
 
