@@ -213,6 +213,7 @@ function updateStatus () {
 
     statusMessage.message = status
     pgn.output = game.pgn()
+    saveCurrentPGNLocally()
 }
 
 function saveGamesLocally (games) {
@@ -231,6 +232,22 @@ function loadSavedGames () {
     }
 }
 
+function saveCurrentPGNLocally () {
+    stringified = JSON.stringify(game.pgn())
+    localStorage.currentGamePGN = stringified
+}
+
+function loadCurrentGamePGN () {
+    g = localStorage.currentGamePGN
+    if (g) {
+        savedGames.loadGame(JSON.parse(g))
+        console.log("Loading a saved game")
+    }
+    else {
+        console.log("Not loading a saved game")
+    }
+}
+
 var gameConfig = {
     draggable: true,
     position: 'start',
@@ -241,5 +258,6 @@ var gameConfig = {
 
 board = Chessboard('board', gameConfig)
 
+loadCurrentGamePGN()
 updateStatus()
 loadSavedGames()
