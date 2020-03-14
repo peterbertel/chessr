@@ -104,7 +104,6 @@ var savedGames = new Vue({
 var promotionModal = new Vue({
     el: '#promotion-modal',
     data: {
-        showModal: false,
         chosenPiece: "",
         sourceSquare: "",
         targetSquare: ""
@@ -119,7 +118,6 @@ var promotionModal = new Vue({
             })
             board.position(game.fen())
             updateStatus()
-            this.showModal = false
         }
     }
 })
@@ -163,7 +161,7 @@ function onDrop (source, target) {
             promotion = true
             promotionModal.sourceSquare = source
             promotionModal.targetSquare = target
-            promotionModal.showModal = true
+            $('#promotion-modal').modal({ show: true })
         }
     }
     if (!promotion) {
