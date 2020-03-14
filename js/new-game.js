@@ -1,10 +1,4 @@
 // Vue Elements
-var app = new Vue({
-    el: '#app',
-    data: {
-        message: 'Hello there! This app is currently in-progress. :)'
-    }
-})
 var statusMessage = new Vue({
     el: '#status',
     data: {
@@ -163,14 +157,16 @@ function onDragStart (source, piece, position, orientation) {
 
 function onDrop (source, target) {
     // If a piece is moving to a back rank from the second to last rank
+    var promotion = false
     if ( (source.includes(2) && (target.includes(1))  || (source.includes(7) && target.includes(8))) ) {
         if (isValidPawnMove(game, source, target)) {
+            promotion = true
             promotionModal.sourceSquare = source
             promotionModal.targetSquare = target
             promotionModal.showModal = true
         }
     }
-    else {
+    if (!promotion) {
         var move = game.move({
             from: source,
             to: target

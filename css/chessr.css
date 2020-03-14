@@ -1,3 +1,37 @@
+#body {
+    /* background-image: linear-gradient(to bottom right, #4f89b0, #5f99bf); */
+    background-color: #f8f9fa;
+}
+
+.main-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top: 1em;
+}
+
+.left-main-body {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.game-buttons {
+    padding-top: 1em;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.pgn-box {
+    background-color: #f8f9fa;
+    width: 40%;
+}
+
+#save-new-game {
+    padding-top: 1em;
+    padding-left: 1em;
+}
+
 .modal-mask {
     position: fixed;
     z-index: 9998;

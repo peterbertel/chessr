@@ -1,41 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Chessr</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
 	<link rel="stylesheet" href="css/chessr.css">
 	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	<script src="js/chessboard-1.0.0.min.js"></script>
 	<script src="js/chess.js"></script>
 	<script src="https://unpkg.com/vue"></script>
 </head>
-<body>
-	<div id="app">
-		{{ message }}
-	</div>
-	<div id="board" style="width: 400px"></div>
-	<p id="status">
-		{{ message }}
-	</p>
-	<p id="pgn">
-		{{ output }}
-	</p>
-	<div id="undo-move-button">
-		<button v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
-	</div>
-	<div id="new-game-button">
-		<button v-on:click="newGame">New Game</button>
-	</div>
-	<div id="flip-board-button">
-		<button v-on:click="flipBoard">Flip Board</button>
+<body id="body">
+	<nav class="navbar navbar-light bg-light">
+		<span class="navbar-brand mb-0 h1">Chessr</span>
+	</nav>
+	<div class="main-body">
+		<div class="left-main-body">
+			<div id="board"></div>
+			<div class="game-buttons">
+				<button id="undo-move-button" type="button" class="btn btn-secondary" v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
+				<button id="new-game-button" type="button" class="btn btn-secondary" v-on:click="newGame">New Game</button>
+				<button id="flip-board-button" type="button" class="btn btn-secondary" v-on:click="flipBoard">Flip Board</button>
+			</div>
+		</div>
+		<div class="pgn-box">
+			<p id="pgn">
+				{{ output }}
+			</p>
+		</div>
 	</div>
 	<div id="save-new-game">
 		<input type="text" v-model="gameTitle" placeholder="Game Title">
 		<input type="text" v-model="whitePlayerName" placeholder="White Player Name">
 		<input type="text" v-model="blackPlayerName" placeholder="Black Player Name">
 		<input type="text" v-model="eventName" placeholder="Event">
-		<button v-on:click="saveGame">Save Game</button>
+		<button type="button" class="btn btn-success" v-on:click="saveGame">Save Game</button>
 	</div>
 	<div id="saved-games" v-if="games">
 		<p>Load one of the games below!</p>
