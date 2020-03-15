@@ -25,6 +25,7 @@
 				<button id="undo-move-button" type="button" class="btn btn-secondary" v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
 				<button id="new-game-button" type="button" class="btn btn-secondary" v-on:click="newGame">New Game</button>
 				<button id="flip-board-button" type="button" class="btn btn-secondary" v-on:click="flipBoard">Flip Board</button>
+				<button id="save-game-button" type="button" class="btn btn-secondary" v-on:click="saveGame">Save Game</button>
 			</div>
 		</div>
 		<div class="pgn-box">
@@ -32,13 +33,6 @@
 				{{ output }}
 			</p>
 		</div>
-	</div>
-	<div id="save-new-game">
-		<input type="text" v-model="gameTitle" placeholder="Game Title">
-		<input type="text" v-model="whitePlayerName" placeholder="White Player Name">
-		<input type="text" v-model="blackPlayerName" placeholder="Black Player Name">
-		<input type="text" v-model="eventName" placeholder="Event">
-		<button type="button" class="btn btn-success" v-on:click="saveGame">Save Game</button>
 	</div>
 	<div id="saved-games" v-if="games">
 		<p>Load one of the games below!</p>
@@ -66,6 +60,65 @@
 			</div>
 		</div>
 	</div>
+	<!-- Save Game Modal -->
+	<div class="modal fade" id="save-game-modal" tabindex="-1" role="dialog" aria-labelledby="save-game-modal-center-title" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center save-game-modal-header" id="save-game-modal-center-title">Save Game</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-row">
+							<label for="input-game-title">Game Title</label>
+							<input class="form-control" type="text" v-model="gameTitle" id="input-game-title">
+						</div>
+						<div class="form-row padd-top">
+							<div class="form-group col-md-6">
+								<label for="input-white-player-name">White Player Name</label>
+								<input class="form-control" type="text" v-model="whitePlayerName" id="input-white-player-name">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="input-white-player-rating">White Player Rating</label>
+								<input class="form-control" type="text" v-model="whitePlayerRating" id="input-white-player-rating">
+							</div>
+						</div>
+						<div class="form-row padd-top">
+							<div class="form-group col-md-6">
+								<label for="input-black-player-name">Black Player Name</label>
+								<input class="form-control" type="text" v-model="blackPlayerName" id="input-black-player-name">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="input-black-player-rating">Black Player Rating</label>
+								<input class="form-control" type="text" v-model="blackPlayerRating" id="input-black-player-rating">
+							</div>
+						</div>
+						<div class="form-row padd-top">
+							<div class="form-group col-md-6">
+								<label for="input-event-name">Event Name</label>
+								<input class="form-control" type="text" v-model="eventName" id="input-event-name">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="input-result">Result</label>
+								<select v-model="result" name="result" class="form-control" id="input-result">
+									<option value="1-0">1-0</option>
+									<option value="0-1">0-1</option>
+									<option value="1/2-1/2">1/2-1/2</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer justify-center">
+					<button type="button" class="btn btn-success" v-on:click="saveGame()" data-dismiss="modal" aria-label="Save Button">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End of Save Game Modal -->
 	<p id="status" class="d-none">
 		{{ message }}
 	</p>
