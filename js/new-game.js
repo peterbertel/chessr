@@ -47,6 +47,14 @@ var saveGameButton = new Vue({
         }
     }
 })
+var loadGameButton = new Vue({
+    el: '#load-game-button',
+    methods: {
+        loadGame: function () {
+            $('#load-game-modal').modal({ show: true })
+        }
+    }
+})
 var flipBoardButton = new Vue({
     el: '#flip-board-button',
     methods: {
@@ -62,8 +70,8 @@ var flipBoardButton = new Vue({
         }
     }
 })
-var savedGames = new Vue({
-    el: '#saved-games',
+var loadGameModal = new Vue({
+    el: '#load-game-modal',
     data: {
         games: null
     },
@@ -98,11 +106,11 @@ var saveGameModal = new Vue({
             localGames = localStorage.getItem("savedGames")
             if (!localGames) {
                 games = [ currentGame ]
-                savedGames.games = games
+                loadGameModal.games = games
             }
             else {
-                savedGames.games.push(currentGame)
-                games = savedGames.games
+                loadGameModal.games.push(currentGame)
+                games = loadGameModal.games
             }
             saveGamesLocally(games)
             clearSaveGameModal()
@@ -227,7 +235,7 @@ function loadSavedGames () {
     loadedGames = localStorage.getItem("savedGames")
     if (loadedGames) {
         parsedGames = JSON.parse(loadedGames)
-        savedGames.games = parsedGames
+        loadGameModal.games = parsedGames
     }
 }
 
@@ -239,8 +247,14 @@ function saveCurrentPGNLocally () {
 function loadCurrentGamePGN () {
     g = localStorage.currentGamePGN
     if (g) {
-        savedGames.loadGame(JSON.parse(g))
+        loadGame(JSON.parse(g))
     }
+}
+
+loadGame = (pgn) => {
+    game.load_pgn(pgn)
+    board.position(game.fen())
+    updateStatus()
 }
 
 clearSaveGameModal = () => {

@@ -22,10 +22,11 @@
 		<div class="left-main-body">
 			<div id="board"></div>
 			<div class="game-buttons">
-				<button id="undo-move-button" type="button" class="btn btn-secondary" v-on:click="undoMove" v-on:keydown="undoMove">Undo Move</button>
-				<button id="new-game-button" type="button" class="btn btn-secondary" v-on:click="newGame">New Game</button>
-				<button id="flip-board-button" type="button" class="btn btn-secondary" v-on:click="flipBoard">Flip Board</button>
-				<button id="save-game-button" type="button" class="btn btn-secondary" v-on:click="saveGame">Save Game</button>
+				<button id="new-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="newGame">New</button>
+				<button id="undo-move-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="undoMove" v-on:keydown="undoMove">Undo</button>
+				<button id="flip-board-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="flipBoard">Flip</button>
+				<button id="save-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="saveGame">Save</button>
+				<button id="load-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="loadGame">Load</button>
 			</div>
 		</div>
 		<div class="pgn-box">
@@ -34,14 +35,7 @@
 			</p>
 		</div>
 	</div>
-	<div id="saved-games" v-if="games">
-		<p>Load one of the games below!</p>
-		<ul>
-			<li v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)">
-				{{ game.gameTitle }}
-			</li>
-		</ul>
-	</div>
+	<!-- Promotion Modal -->
 	<div class="modal fade" id="promotion-modal" tabindex="-1" role="dialog" aria-labelledby="promotion-modal-center-title" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
@@ -60,6 +54,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- End of Promotion Modal -->
 	<!-- Save Game Modal -->
 	<div class="modal fade" id="save-game-modal" tabindex="-1" role="dialog" aria-labelledby="save-game-modal-center-title" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
@@ -119,6 +114,29 @@
 		</div>
 	</div>
 	<!-- End of Save Game Modal -->
+	<!-- Load Game Modal -->
+	<div class="modal fade" id="load-game-modal" tabindex="-1" role="dialog" aria-labelledby="load-game-modal-center-title" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center load-game-modal-header" id="load-game-modal-center-title">Load a Game</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div v-if="games">
+						<ul>
+							<li v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)" data-dismiss="modal">
+								{{ game.gameTitle }}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End of Load Game Modal -->
 	<p id="status" class="d-none">
 		{{ message }}
 	</p>
