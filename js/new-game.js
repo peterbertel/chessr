@@ -35,41 +35,15 @@ var newGameButton = new Vue({
             game = new Chess()
             board.position(game.fen())
             updateStatus()
+            clearSaveGameModal()
         }
     }
 })
-var saveNewGameInput = new Vue({
-    el: '#save-new-game',
-    data: {
-        gameTitle: "",
-        whitePlayerName: "",
-        blackPlayerName: "",
-        eventName: ""
-    },
+var saveGameButton = new Vue({
+    el: '#save-game-button',
     methods: {
         saveGame: function () {
-            if (this.whitePlayerName) {
-                game.header("White", this.whitePlayerName)
-            }
-            if (this.blackPlayerName) {
-                game.header("Black", this.blackPlayerName)
-            }
-            if (this.eventName) {
-                game.header("Event", this.eventName)
-            }
-            updateStatus()
-            currentPGN = game.pgn()
-            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
-            localGames = localStorage.getItem("savedGames")
-            if (!localGames) {
-                games = [ currentGame ]
-                savedGames.games = games
-            }
-            else {
-                savedGames.games.push(currentGame)
-                games = savedGames.games
-            }
-            saveGamesLocally(games)
+            $('#save-game-modal').modal({ show: true })
         }
     }
 })
@@ -98,6 +72,40 @@ var savedGames = new Vue({
             game.load_pgn(pgn)
             board.position(game.fen())
             updateStatus()
+        }
+    }
+})
+var saveGameModal = new Vue({
+    el: '#save-game-modal',
+    data: {
+        gameTitle: "",
+        whitePlayerName: "",
+        whitePlayerRating: "",
+        blackPlayerName: "",
+        blackPlayerRating: "",
+        eventName: "",
+        result: ""
+    },
+    methods: {
+        saveGame: function () {
+            game.header("White", this.whitePlayerName)
+            game.header("Black", this.blackPlayerName)
+            game.header("Event", this.eventName)
+            game.header("Result", this.result)
+            updateStatus()
+            currentPGN = game.pgn()
+            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
+            localGames = localStorage.getItem("savedGames")
+            if (!localGames) {
+                games = [ currentGame ]
+                savedGames.games = games
+            }
+            else {
+                savedGames.games.push(currentGame)
+                games = savedGames.games
+            }
+            saveGamesLocally(games)
+            clearSaveGameModal()
         }
     }
 })
@@ -233,6 +241,16 @@ function loadCurrentGamePGN () {
     if (g) {
         savedGames.loadGame(JSON.parse(g))
     }
+}
+
+clearSaveGameModal = () => {
+    saveGameModal.gameTitle = ""
+    saveGameModal.whitePlayerName = ""
+    saveGameModal.whitePlayerRating = ""
+    saveGameModal.blackPlayerName = ""
+    saveGameModal.blackPlayerRating = ""
+    saveGameModal.eventName = ""
+    saveGameModal.result = ""
 }
 
 var gameConfig = {
