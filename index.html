@@ -19,9 +19,9 @@
 		<span class="navbar-brand mb-0 h1">Chessr</span>
 	</nav>
 	<div class="main-body">
-		<div class="left-main-body">
+		<div class="left-main-body col-sm-8 col-md-6 col-lg-5">
 			<div id="board"></div>
-			<div class="game-buttons">
+			<div class="game-buttons padd-bottom">
 				<button id="new-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="newGame">New</button>
 				<button id="undo-move-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="undoMove" v-on:keydown="undoMove">Undo</button>
 				<button id="flip-board-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="flipBoard">Flip</button>
@@ -29,7 +29,7 @@
 				<button id="load-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="loadGame">Load</button>
 			</div>
 		</div>
-		<div class="pgn-box">
+		<div class="pgn-box col-sm-8 col-md-5 col-lg-5">
 			<p id="pgn">
 				{{ output }}
 			</p>
@@ -40,7 +40,7 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title text-center promotion-modal-header" id="promotion-modal-center-title">Promote to which piece?</h5>
+					<h5 class="modal-title text-center central-modal-header" id="promotion-modal-center-title">Promote to which piece?</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -60,7 +60,7 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title text-center save-game-modal-header" id="save-game-modal-center-title">Save Game</h5>
+					<h5 class="modal-title text-center central-modal-header" id="save-game-modal-center-title">Save Game</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -119,18 +119,23 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title text-center load-game-modal-header" id="load-game-modal-center-title">Load a Game</h5>
+					<h5 class="modal-title padd-left">Load a Game</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<div v-if="games">
+					<!-- <div v-if="games">
 						<ul>
-							<li v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)" data-dismiss="modal">
-								{{ game.gameTitle }}
+							<li class="padd-top" v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)" data-dismiss="modal">
+								{{ game.whitePlayerName }} vs {{ game.blackPlayerName }} <span v-if="game.result" class="font-italic padd-left">{{ game.result }}</span>
 							</li>
 						</ul>
+					</div> -->
+					<div class="list-group" v-if="games">
+						<a class="list-group-item list-group-item-action" v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)" data-dismiss="modal">
+							{{ game.whitePlayerName }} vs {{ game.blackPlayerName }} <span v-if="game.result" class="font-italic padd-left">{{ game.result }}</span>
+						</a>
 					</div>
 				</div>
 			</div>

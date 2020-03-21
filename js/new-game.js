@@ -102,7 +102,7 @@ var saveGameModal = new Vue({
             game.header("Result", this.result)
             updateStatus()
             currentPGN = game.pgn()
-            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
+            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle, whitePlayerName: this.whitePlayerName, blackPlayerName: this.blackPlayerName, result: this.result}
             localGames = localStorage.getItem("savedGames")
             if (!localGames) {
                 games = [ currentGame ]
