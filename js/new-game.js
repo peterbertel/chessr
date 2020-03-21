@@ -35,6 +35,7 @@ var newGameButton = new Vue({
             game = new Chess()
             board.position(game.fen())
             updateStatus()
+            clearSaveGameModal()
         }
     }
 })
@@ -104,6 +105,7 @@ var saveGameModal = new Vue({
                 games = savedGames.games
             }
             saveGamesLocally(games)
+            clearSaveGameModal()
         }
     }
 })
@@ -239,6 +241,16 @@ function loadCurrentGamePGN () {
     if (g) {
         savedGames.loadGame(JSON.parse(g))
     }
+}
+
+clearSaveGameModal = () => {
+    saveGameModal.gameTitle = ""
+    saveGameModal.whitePlayerName = ""
+    saveGameModal.whitePlayerRating = ""
+    saveGameModal.blackPlayerName = ""
+    saveGameModal.blackPlayerRating = ""
+    saveGameModal.eventName = ""
+    saveGameModal.result = ""
 }
 
 var gameConfig = {
