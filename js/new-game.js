@@ -124,6 +124,7 @@ var saveGameModal = new Vue({
                 games = loadGameModal.games
             }
             saveGamesLocally(games)
+            updatePGN()
             clearSaveGameModal()
         }
     }
@@ -237,10 +238,7 @@ function updateStatus () {
             status += ', ' + moveColor + ' is in check'
         }
     }
-
     statusMessage.message = status
-    // pgn.output = game.pgn()
-    // saveCurrentPGNLocally()
 }
 
 function saveGamesLocally (games) {
@@ -269,7 +267,6 @@ function loadCurrentGamePGN () {
     }
 }
 
-
 updatePGN = () => {
     if (!game.pgn()) {
         pgnHeaders.whitePlayerName = ""
@@ -280,11 +277,13 @@ updatePGN = () => {
     }
     else {
         splitPGN = game.pgn().split("\n")
+        if (hasPlayerNames(splitPGN)) {
+            whitePlayerName = splitPGN[0].split('"')[1]
+            blackPlayerName = splitPGN[1].split('"')[1]
+            pgnHeaders.whitePlayerName = whitePlayerName
+            pgnHeaders.blackPlayerName = blackPlayerName
+        }
         moves = splitPGN[splitPGN.length - 1]
-        whitePlayerName = splitPGN[0].split('"')[1]
-        blackPlayerName = splitPGN[1].split('"')[1]
-        pgnHeaders.whitePlayerName = whitePlayerName
-        pgnHeaders.blackPlayerName = blackPlayerName
         result = hasResult(splitPGN)
         pgnHeaders.result = (result) ? result : ""
         eventName = hasEventName(splitPGN)
@@ -302,10 +301,13 @@ hasEventName = (splitPGN) => {
     return hasPGNHeader(splitPGN, "Event ")
 }
 
+hasPlayerNames = (splitPGN) => {
+    return hasPGNHeader(splitPGN, "White " && hasPGNHeader(splitPGN, "Black "))
+}
+
 hasPGNHeader = (splitPGN, header) => {
     for (i = 0; i < splitPGN.length; i++) {
         if (splitPGN[i].includes(header)) {
-            console.log("Here's the value of the pgn header, " + header + ": " + splitPGN[i])
             return splitPGN[i].split('"')[1]
         }
     }
@@ -341,17 +343,3 @@ board = Chessboard('board', gameConfig)
 loadCurrentGamePGN()
 updateStatus()
 loadSavedGames()
-
-
-// // Update current game pgn info
-// s = game.pgn().split("\n")
-// moves = s[s.length-1]
-
-// whitePlayerName = s[0].split('"')[1]
-// blackPlayerName = s[1].split('"')[1]
-
-// pgnHeaders.whitePlayerName = whitePlayerName
-// pgnHeaders.blackPlayerName = blackPlayerName
-// // pgnHeaders.eventName = "Some tournament"
-// // pgnHeaders.result = "0-1"
-// pgn.output = moves
