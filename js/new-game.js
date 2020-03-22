@@ -11,6 +11,15 @@ var pgn = new Vue({
         output: null
     }
 })
+var pgnHeaders = new Vue({
+    el: '#pgn-headers',
+    data: {
+        whitePlayerName: "",
+        blackPlayerName: "",
+        eventName: "",
+        result: ""
+    }
+})
 var undoMoveButton = new Vue({
     el: '#undo-move-button',
     created() {
@@ -34,6 +43,7 @@ var newGameButton = new Vue({
         newGame: function () {
             game = new Chess()
             board.position(game.fen())
+            updatePGN()
             updateStatus()
         }
     }
@@ -97,6 +107,7 @@ var savedGames = new Vue({
         loadGame: function (pgn) {
             game.load_pgn(pgn)
             board.position(game.fen())
+            updatePGN()
             updateStatus()
         }
     }
@@ -117,6 +128,7 @@ var promotionModal = new Vue({
                 promotion: piece
             })
             board.position(game.fen())
+            updatePGN()
             updateStatus()
         }
     }
@@ -172,6 +184,7 @@ function onDrop (source, target) {
 
         // illegal move
         if (move === null) return 'snapback'
+        updatePGN()
         updateStatus()
     }
 }
@@ -192,10 +205,14 @@ function updateStatus () {
 
     if (game.in_checkmate()) {
         status = 'Game over, ' + moveColor + ' is in checkmate.'
+        var result = (moveColor == 'White') ? "0-1" : "1-0"
+        game.header('Result', result)
+        pgnHeaders.result = result
     }
 
     else if (game.in_draw()) {
         status = 'Game over, drawn position.'
+        game.header('Result', "1/2-1/2")
     }
 
     else {
@@ -206,8 +223,8 @@ function updateStatus () {
     }
 
     statusMessage.message = status
-    pgn.output = game.pgn()
-    saveCurrentPGNLocally()
+    // pgn.output = game.pgn()
+    // saveCurrentPGNLocally()
 }
 
 function saveGamesLocally (games) {
@@ -235,6 +252,48 @@ function loadCurrentGamePGN () {
     }
 }
 
+updatePGN = () => {
+    if (!game.pgn()) {
+        pgnHeaders.whitePlayerName = ""
+        pgnHeaders.blackPlayerName = ""
+        pgnHeaders.result = ""
+        pgnHeaders.eventName = ""
+        pgn.output = ""
+    }
+    else {
+        splitPGN = game.pgn().split("\n")
+        moves = splitPGN[splitPGN.length - 1]
+        whitePlayerName = splitPGN[0].split('"')[1]
+        blackPlayerName = splitPGN[1].split('"')[1]
+        pgnHeaders.whitePlayerName = whitePlayerName
+        pgnHeaders.blackPlayerName = blackPlayerName
+        result = hasResult(splitPGN)
+        pgnHeaders.result = (result) ? result : ""
+        eventName = hasEventName(splitPGN)
+        pgnHeaders.eventName = (eventName) ? eventName : ""
+        pgn.output = moves
+    }
+    saveCurrentPGNLocally()
+}
+
+hasResult = (splitPGN) => {
+    return hasPGNHeader(splitPGN, "Result ")
+}
+
+hasEventName = (splitPGN) => {
+    return hasPGNHeader(splitPGN, "Event ")
+}
+
+hasPGNHeader = (splitPGN, header) => {
+    for (i = 0; i < splitPGN.length; i++) {
+        if (splitPGN[i].includes(header)) {
+            console.log("Here's the value of the pgn header, " + header + ": " + splitPGN[i])
+            return splitPGN[i].split('"')[1]
+        }
+    }
+    return false
+}
+
 var gameConfig = {
     draggable: true,
     position: 'start',
@@ -248,3 +307,17 @@ board = Chessboard('board', gameConfig)
 loadCurrentGamePGN()
 updateStatus()
 loadSavedGames()
+
+
+// // Update current game pgn info
+// s = game.pgn().split("\n")
+// moves = s[s.length-1]
+
+// whitePlayerName = s[0].split('"')[1]
+// blackPlayerName = s[1].split('"')[1]
+
+// pgnHeaders.whitePlayerName = whitePlayerName
+// pgnHeaders.blackPlayerName = blackPlayerName
+// // pgnHeaders.eventName = "Some tournament"
+// // pgnHeaders.result = "0-1"
+// pgn.output = moves

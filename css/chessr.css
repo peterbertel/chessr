@@ -26,6 +26,10 @@
     width: 40%;
 }
 
+.pgn-headers {
+    width: 100%;
+}
+
 #save-new-game {
     padding-top: 1em;
     padding-left: 1em;
@@ -38,4 +42,16 @@
 .promotion-buttons {
     display: flex;
     justify-content: space-evenly;
+}
+
+.padd-top {
+    padding-top: 1em;
+}
+
+.padd-right {
+    padding-right: 1em;
+}
+
+.padd-left {
+    padding-left: 1em;
 }
