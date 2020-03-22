@@ -8,20 +8,20 @@
 	<link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
 	<link rel="stylesheet" href="css/chessr.css">
 	<script src="js/jquery-3.4.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="js/popper-1.16.0.min.js"></script>
+	<script src="js/boostrap-4.4.1.min.js"></script>
 	<script src="js/chessboard-1.0.0.min.js"></script>
 	<script src="js/chess.js"></script>
-	<script src="https://unpkg.com/vue"></script>
+	<script src="js/vue-2.6.11.js"></script>
 </head>
 <body id="body">
 	<nav class="navbar navbar-light bg-light">
 		<span class="navbar-brand mb-0 h1">Chessr</span>
 	</nav>
 	<div class="main-body">
-		<div class="left-main-body col-sm-8 col-md-6 col-lg-5">
+		<div class="left-main-body col-sm-12 col-md-6 col-lg-5">
 			<div id="board"></div>
-			<div class="game-buttons padd-bottom">
+			<div class="game-buttons padd-bottom padd-top">
 				<button id="new-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="newGame">New</button>
 				<button id="undo-move-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="undoMove" v-on:keydown="undoMove">Undo</button>
 				<button id="flip-board-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="flipBoard">Flip</button>
@@ -74,7 +74,7 @@
 							<label for="input-game-title">Game Title</label>
 							<input class="form-control" type="text" v-model="gameTitle" id="input-game-title">
 						</div>
-						<div class="form-row padd-top">
+						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="input-white-player-name">White Player Name</label>
 								<input class="form-control" type="text" v-model="whitePlayerName" id="input-white-player-name">

@@ -7,26 +7,22 @@
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    padding-top: 1em;
     width: 100%;
 }
 
 .left-main-body {
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
-    overflow-y: hidden;
 }
 
 .game-buttons {
-    padding-top: 1em;
     display: flex;
     justify-content: space-evenly;
 }
 
 .pgn-box {
     background-color: #f8f9fa;
-    overflow:scroll;
+    overflow-y: scroll;
 }
 
 #save-new-game {
@@ -62,4 +58,42 @@
 
 .padd-right {
     padding-right: 1em;
+}
+
+@media (max-width: 575.98px) {
+    #body {
+        max-height: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .padd-top {
+        padding-top: .5em;
+    }
+
+    .padd-bottom {
+        padding-bottom: .5em;
+    }
+
+    p {
+        font-size: .75rem;
+    }
+
+    .left-main-body {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .game-buttons button {
+        font-size: .675rem;
+    }
+
+    #pgn-headers {
+        display: none;
+    }
 }
