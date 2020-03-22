@@ -45,41 +45,23 @@ var newGameButton = new Vue({
             board.position(game.fen())
             updatePGN()
             updateStatus()
+            clearSaveGameModal()
         }
     }
 })
-var saveNewGameInput = new Vue({
-    el: '#save-new-game',
-    data: {
-        gameTitle: "",
-        whitePlayerName: "",
-        blackPlayerName: "",
-        eventName: ""
-    },
+var saveGameButton = new Vue({
+    el: '#save-game-button',
     methods: {
         saveGame: function () {
-            if (this.whitePlayerName) {
-                game.header("White", this.whitePlayerName)
-            }
-            if (this.blackPlayerName) {
-                game.header("Black", this.blackPlayerName)
-            }
-            if (this.eventName) {
-                game.header("Event", this.eventName)
-            }
-            updateStatus()
-            currentPGN = game.pgn()
-            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle}
-            localGames = localStorage.getItem("savedGames")
-            if (!localGames) {
-                games = [ currentGame ]
-                savedGames.games = games
-            }
-            else {
-                savedGames.games.push(currentGame)
-                games = savedGames.games
-            }
-            saveGamesLocally(games)
+            $('#save-game-modal').modal({ show: true })
+        }
+    }
+})
+var loadGameButton = new Vue({
+    el: '#load-game-button',
+    methods: {
+        loadGame: function () {
+            $('#load-game-modal').modal({ show: true })
         }
     }
 })
@@ -98,8 +80,8 @@ var flipBoardButton = new Vue({
         }
     }
 })
-var savedGames = new Vue({
-    el: '#saved-games',
+var loadGameModal = new Vue({
+    el: '#load-game-modal',
     data: {
         games: null
     },
@@ -109,6 +91,40 @@ var savedGames = new Vue({
             board.position(game.fen())
             updatePGN()
             updateStatus()
+        }
+    }
+})
+var saveGameModal = new Vue({
+    el: '#save-game-modal',
+    data: {
+        gameTitle: "",
+        whitePlayerName: "",
+        whitePlayerRating: "",
+        blackPlayerName: "",
+        blackPlayerRating: "",
+        eventName: "",
+        result: ""
+    },
+    methods: {
+        saveGame: function () {
+            game.header("White", this.whitePlayerName)
+            game.header("Black", this.blackPlayerName)
+            game.header("Event", this.eventName)
+            game.header("Result", this.result)
+            updateStatus()
+            currentPGN = game.pgn()
+            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle, whitePlayerName: this.whitePlayerName, blackPlayerName: this.blackPlayerName, result: this.result}
+            localGames = localStorage.getItem("savedGames")
+            if (!localGames) {
+                games = [ currentGame ]
+                loadGameModal.games = games
+            }
+            else {
+                loadGameModal.games.push(currentGame)
+                games = loadGameModal.games
+            }
+            saveGamesLocally(games)
+            clearSaveGameModal()
         }
     }
 })
@@ -236,7 +252,7 @@ function loadSavedGames () {
     loadedGames = localStorage.getItem("savedGames")
     if (loadedGames) {
         parsedGames = JSON.parse(loadedGames)
-        savedGames.games = parsedGames
+        loadGameModal.games = parsedGames
     }
 }
 
@@ -248,9 +264,10 @@ function saveCurrentPGNLocally () {
 function loadCurrentGamePGN () {
     g = localStorage.currentGamePGN
     if (g) {
-        savedGames.loadGame(JSON.parse(g))
+        loadGame(JSON.parse(g))
     }
 }
+
 
 updatePGN = () => {
     if (!game.pgn()) {
@@ -292,6 +309,22 @@ hasPGNHeader = (splitPGN, header) => {
         }
     }
     return false
+}
+
+loadGame = (pgn) => {
+    game.load_pgn(pgn)
+    board.position(game.fen())
+    updateStatus()
+}
+
+clearSaveGameModal = () => {
+    saveGameModal.gameTitle = ""
+    saveGameModal.whitePlayerName = ""
+    saveGameModal.whitePlayerRating = ""
+    saveGameModal.blackPlayerName = ""
+    saveGameModal.blackPlayerRating = ""
+    saveGameModal.eventName = ""
+    saveGameModal.result = ""
 }
 
 var gameConfig = {

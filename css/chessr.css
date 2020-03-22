@@ -6,13 +6,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     padding-top: 1em;
+    width: 100%;
 }
 
 .left-main-body {
     display: flex;
     flex-direction: column;
-    width: 40%;
 }
 
 .game-buttons {
@@ -23,7 +24,6 @@
 
 .pgn-box {
     background-color: #f8f9fa;
-    width: 40%;
 }
 
 .pgn-headers {
@@ -35,8 +35,9 @@
     padding-left: 1em;
 }
 
-.promotion-modal-header {
+.central-modal-header {
     width: 100%;
+    padding-left: 2rem;
 }
 
 .promotion-buttons {
@@ -44,14 +45,22 @@
     justify-content: space-evenly;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
 .padd-top {
     padding-top: 1em;
 }
 
-.padd-right {
-    padding-right: 1em;
+.padd-bottom {
+    padding-bottom: 1em;
 }
 
 .padd-left {
     padding-left: 1em;
+}
+
+.padd-right {
+    padding-right: 1em;
 }
