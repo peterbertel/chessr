@@ -265,6 +265,7 @@ function loadCurrentGamePGN () {
     g = localStorage.currentGamePGN
     if (g) {
         loadGame(JSON.parse(g))
+        updatePGN()
     }
 }
 
