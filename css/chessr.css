@@ -14,6 +14,8 @@
 .left-main-body {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .game-buttons {
@@ -24,10 +26,7 @@
 
 .pgn-box {
     background-color: #f8f9fa;
-}
-
-.pgn-headers {
-    width: 100%;
+    overflow:scroll;
 }
 
 #save-new-game {
