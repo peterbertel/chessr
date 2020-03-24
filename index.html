@@ -70,7 +70,7 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div class="form-row">
+						<div class="form-row padd-bottom">
 							<label for="input-game-title">Game Title</label>
 							<input class="form-control" type="text" v-model="gameTitle" id="input-game-title">
 						</div>
@@ -128,18 +128,18 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<!-- <div v-if="games">
-						<ul>
-							<li class="padd-top" v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)" data-dismiss="modal">
-								{{ game.whitePlayerName }} vs {{ game.blackPlayerName }} <span v-if="game.result" class="font-italic padd-left">{{ game.result }}</span>
-							</li>
-						</ul>
-					</div> -->
 					<div class="list-group" v-if="games">
-						<a class="list-group-item list-group-item-action" v-for="game in games" :key="game.gameTitle" v-on:click="loadGame(game.pgn)" data-dismiss="modal">
+						<a class="list-group-item list-group-item-action" v-for="(game, index) in games" :key="game.gameTitle" v-on:click="clickedGame(game.pgn, index)">
+							<span class="padd-right" v-if="deleteGamesView">
+								<svg class="text-danger" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+							</span>
 							{{ game.whitePlayerName }} vs {{ game.blackPlayerName }} <span v-if="game.result" class="font-italic padd-left">{{ game.result }}</span>
 						</a>
 					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" v-on:click="done()" v-if="deleteGamesView" aria-label="Done Button">Done</button>
+					<button type="button" class="btn btn-danger" v-on:click="toggleDeleteGames()" v-bind:disabled="deleteGamesView" aria-label="Delete Games Button">Delete Games</button>
 				</div>
 			</div>
 		</div>

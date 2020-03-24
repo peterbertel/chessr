@@ -86,7 +86,8 @@ var flipBoardButton = new Vue({
 var loadGameModal = new Vue({
     el: '#load-game-modal',
     data: {
-        games: null
+        games: null,
+        deleteGamesView: false
     },
     methods: {
         loadGame: function (pgn) {
@@ -94,6 +95,25 @@ var loadGameModal = new Vue({
             board.position(game.fen())
             updatePGN()
             updateStatus()
+            $('#load-game-modal').modal('hide')
+        },
+        deleteGame: function(index) {
+            games = this.games.splice(index, 1);
+            saveGamesLocally (games)
+        },
+        toggleDeleteGames: function() {
+            this.deleteGamesView = true
+        },
+        done: function () {
+            this.deleteGamesView = false
+        },
+        clickedGame: function (pgn, index) {
+            if (this.deleteGamesView) {
+                this.deleteGame(index)
+            }
+            else {
+                this.loadGame(pgn)
+            }
         }
     }
 })
