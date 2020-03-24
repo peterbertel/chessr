@@ -26,7 +26,7 @@
 				<button id="undo-move-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="undoMove" v-on:keydown="undoMove">Undo</button>
 				<button id="flip-board-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="flipBoard">Flip</button>
 				<button id="save-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="saveGame">Save</button>
-				<button id="load-game-button" type="button" class="btn btn-secondary col-sm-2" v-on:click="loadGame">Load</button>
+				<button id="load-game-button" type="button" class="btn btn-secondary col-sm-2" v-bind:disabled="!areSavedGames" v-on:click="loadGame">Load</button>
 			</div>
 		</div>
 		<div class="pgn-box col-sm-8 col-md-5 col-lg-5">

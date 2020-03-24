@@ -59,6 +59,9 @@ var saveGameButton = new Vue({
 })
 var loadGameButton = new Vue({
     el: '#load-game-button',
+    data: {
+        areSavedGames: ""
+    },
     methods: {
         loadGame: function () {
             $('#load-game-modal').modal({ show: true })
@@ -244,11 +247,15 @@ function updateStatus () {
 function saveGamesLocally (games) {
     stringified = JSON.stringify(games)
     localStorage.savedGames = stringified
+    if (!loadGameButton.areSavedGames) {
+        loadGameButton.areSavedGames = true
+    }
 }
 
 function loadSavedGames () {
     loadedGames = localStorage.getItem("savedGames")
     if (loadedGames) {
+        loadGameButton.areSavedGames = true
         parsedGames = JSON.parse(loadedGames)
         loadGameModal.games = parsedGames
     }
