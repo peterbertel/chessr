@@ -98,8 +98,8 @@ var loadGameModal = new Vue({
             $('#load-game-modal').modal('hide')
         },
         deleteGame: function(index) {
-            games = this.games.splice(index, 1);
-            saveGamesLocally (games)
+            this.games.splice(index, 1)
+            saveGamesLocally(this.games)
         },
         toggleDeleteGames: function() {
             this.deleteGamesView = true
@@ -120,7 +120,6 @@ var loadGameModal = new Vue({
 var saveGameModal = new Vue({
     el: '#save-game-modal',
     data: {
-        gameTitle: "",
         whitePlayerName: "",
         whitePlayerRating: "",
         blackPlayerName: "",
@@ -135,8 +134,9 @@ var saveGameModal = new Vue({
             game.header("Event", this.eventName)
             game.header("Result", this.result)
             updateStatus()
+            gameId = Math.round(new Date().getTime()/1000)
             currentPGN = game.pgn()
-            currentGame = {pgn: currentPGN, gameTitle: this.gameTitle, whitePlayerName: this.whitePlayerName, blackPlayerName: this.blackPlayerName, result: this.result}
+            currentGame = {gameId: gameId, pgn: currentPGN, whitePlayerName: this.whitePlayerName, blackPlayerName: this.blackPlayerName, result: this.result}
             localGames = localStorage.getItem("savedGames")
             if (!localGames) {
                 games = [ currentGame ]
@@ -265,10 +265,16 @@ function updateStatus () {
 }
 
 function saveGamesLocally (games) {
-    stringified = JSON.stringify(games)
-    localStorage.savedGames = stringified
-    if (!loadGameButton.areSavedGames) {
-        loadGameButton.areSavedGames = true
+    if (!games.length) {
+        loadGameButton.areSavedGames = false
+        localStorage.savedGames = ""
+    }
+    else {
+        stringified = JSON.stringify(games)
+        localStorage.savedGames = stringified
+        if (!loadGameButton.areSavedGames) {
+            loadGameButton.areSavedGames = true
+        }
     }
 }
 
@@ -348,7 +354,6 @@ loadGame = (pgn) => {
 }
 
 clearSaveGameModal = () => {
-    saveGameModal.gameTitle = ""
     saveGameModal.whitePlayerName = ""
     saveGameModal.whitePlayerRating = ""
     saveGameModal.blackPlayerName = ""
