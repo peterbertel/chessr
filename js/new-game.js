@@ -301,6 +301,7 @@ function loadCurrentGamePGN () {
 }
 
 updatePGN = () => {
+    updateLocalPGN = true
     if (!game.pgn()) {
         pgnHeaders.whitePlayerName = ""
         pgnHeaders.blackPlayerName = ""
@@ -321,9 +322,25 @@ updatePGN = () => {
         pgnHeaders.result = (result) ? result : ""
         eventName = hasEventName(splitPGN)
         pgnHeaders.eventName = (eventName) ? eventName : ""
-        pgn.output = moves
+        currentGamePGN = localStorage.currentGamePGN
+        if (currentGamePGN.includes(moves)) {
+            a = currentGamePGN.split("\\n")
+            m = a[a.length-1]
+            currentMoves = m.substring(0, m.length-1)
+            if (currentMoves == moves) {
+                pgn.output = moves
+            }
+            else {
+                updateLocalPGN = false
+            }
+        }
+        else {
+            pgn.output = moves
+        }
     }
-    saveCurrentPGNLocally()
+    if (updateLocalPGN) {
+        saveCurrentPGNLocally()
+    }
 }
 
 hasResult = (splitPGN) => {
