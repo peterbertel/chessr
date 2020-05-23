@@ -1,7 +1,7 @@
 # chessr
 An app for storing chess games.
 
-[Live Demo](http://chessr.s3-website-us-east-1.amazonaws.com/)
+[Live Demo](https://www.peteriscoding.io/)
 
 ## Resources
 
