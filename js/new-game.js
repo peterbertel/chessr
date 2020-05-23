@@ -293,8 +293,9 @@ function saveCurrentPGNLocally () {
 }
 
 function loadCurrentGamePGN () {
-    if (localStorage.getItem("currentGamePGN") != null) {
-        loadGame(JSON.parse(g))
+    currentGame = localStorage.getItem("currentGamePGN")
+    if (currentGame != null) {
+        loadGame(JSON.parse(currentGame))
         updatePGN()
     }
 }
