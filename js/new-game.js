@@ -321,16 +321,18 @@ updatePGN = () => {
         pgnHeaders.result = (result) ? result : ""
         eventName = hasEventName(splitPGN)
         pgnHeaders.eventName = (eventName) ? eventName : ""
-        currentGamePGN = localStorage.currentGamePGN
-        if (currentGamePGN.includes(moves)) {
-            a = currentGamePGN.split("\\n")
-            m = a[a.length-1]
-            currentMoves = m.substring(0, m.length-1)
-            if (currentMoves == moves) {
-                pgn.output = moves
-            }
-            else {
-                updateLocalPGN = false
+        currentGamePGN = localStorage.getItem("currentGamePGN")
+        if (currentGamePGN != null) {
+            if (currentGamePGN.includes(moves)) {
+                a = currentGamePGN.split("\\n")
+                m = a[a.length-1]
+                currentMoves = m.substring(0, m.length-1)
+                if (currentMoves == moves) {
+                    pgn.output = moves
+                }
+                else {
+                    updateLocalPGN = false
+                }
             }
         }
         else {
